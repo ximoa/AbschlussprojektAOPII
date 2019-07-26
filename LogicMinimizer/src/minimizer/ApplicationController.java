@@ -28,7 +28,10 @@ public class ApplicationController implements ActionListener, ChangeListener
 		view.addRowButton.addActionListener(this);
 		view.minimizeButton.addActionListener(this);
 		view.varsCountSpinner.addChangeListener(this);
-		view.functionsCountSpinner.addChangeListener(this);		
+		view.functionsCountSpinner.addChangeListener(this);	
+		//
+		view.karnaughButton.addActionListener(this);
+		//
 	}
 
 	@Override
@@ -38,6 +41,9 @@ public class ApplicationController implements ActionListener, ChangeListener
 		if (source == view.fillButton) doFillTable();
 		else if (source == view.addRowButton) doAddRow();
 		else if (source == view.minimizeButton) doMinimize();
+		//
+		else if (source == view.karnaughButton) doKarnaugh();
+		//
 	}
 
 	@Override
@@ -100,5 +106,10 @@ public class ApplicationController implements ActionListener, ChangeListener
 		model.minimize(options, outputType);
 		view.varsCountSpinner.setValue(model.getVariablesCount());
 		view.functionsCountSpinner.setValue(model.getFunctionsCount());
+	}
+	
+	//
+	private void doKarnaugh() {
+		new KarnaughView();
 	}
 }

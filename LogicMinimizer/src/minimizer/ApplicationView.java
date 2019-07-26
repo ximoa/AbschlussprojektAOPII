@@ -3,6 +3,7 @@ package minimizer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.EventObject;
 
 import javax.swing.BoxLayout;
@@ -36,7 +37,11 @@ public class ApplicationView extends JFrame
 	public JRadioButton onSetRadioButton;
 	public JRadioButton dcSetRadioButton;
 	public JRadioButton offSetRadioButton;
-
+	
+	//
+	public JButton karnaughButton;
+	//
+	
 	public ApplicationView(int width, int height)
 	{
 		setSize(width, height);
@@ -90,8 +95,14 @@ public class ApplicationView extends JFrame
 		table.setRowHeight(20);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
+		//
+		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 		minimizeButton = new JButton("Minimize");
-		add(minimizeButton, BorderLayout.SOUTH);
+		bottomPanel.add(minimizeButton);
+		karnaughButton = new JButton("Karnaugh-Veitsch-Diagramm anzeigen");
+		bottomPanel.add(karnaughButton);
+		add(bottomPanel,BorderLayout.SOUTH);
+		//
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
