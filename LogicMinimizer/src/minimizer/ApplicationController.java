@@ -42,7 +42,7 @@ public class ApplicationController implements ActionListener, ChangeListener
 		else if (source == view.addRowButton) doAddRow();
 		else if (source == view.minimizeButton) doMinimize();
 		//
-		else if (source == view.karnaughButton) doKarnaugh();
+		else if (source == view.karnaughButton) new KarnaughView(model);		
 		//
 	}
 
@@ -106,10 +106,5 @@ public class ApplicationController implements ActionListener, ChangeListener
 		model.minimize(options, outputType);
 		view.varsCountSpinner.setValue(model.getVariablesCount());
 		view.functionsCountSpinner.setValue(model.getFunctionsCount());
-	}
-	
-	//
-	private void doKarnaugh() {
-		new KarnaughView();
 	}
 }

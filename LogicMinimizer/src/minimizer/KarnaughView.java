@@ -1,6 +1,7 @@
 package minimizer;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -15,14 +16,15 @@ public class KarnaughView extends JFrame
 	public KarnaughView(ApplicationModel model) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Karnaugh-Veitsch-Diagramm");
-		setLayout(new BorderLayout());
-		
-		createTable(model);
+		setLayout(new GridLayout(model.getFunctionsCount()/2, model.getFunctionsCount()-(model.getFunctionsCount()/2), 30, 30));
+		for(int i = 0; i < model.getFunctionsCount(); i++) {
+			createTable(model, i);
+		}
 		pack();
 		setVisible(true);
 	}
 	
-	private void createTable(ApplicationModel model) {
+	private void createTable(ApplicationModel model, int funcCount) {
 		
 		//Array for first row and column
 		String[][] grayCode = new String[3][];
@@ -68,7 +70,7 @@ public class KarnaughView extends JFrame
 			for(int j = 0; j < varCount; j++) {
 				varIn.set(i,varIn.get(i) + vec.get(i).get(j));					
 			}
-			funcIn.add(i, vec.get(i).get(varCount));
+			funcIn.add(i, vec.get(i).get(varCount+funcCount));
 		}
 		
 		fillTable(varIn, funcIn, model);
@@ -110,8 +112,8 @@ public class KarnaughView extends JFrame
 				}
 			}
 			else {
-				var.add(var.get(i).replace('-', '1'));	
-				var.set(i, var.get(i).replace('-', '0'));
+				var.add(var.get(i).replaceFirst("-", "1"));	
+				var.set(i, var.get(i).replaceFirst("-", "0"));
 				func.add(func.get(i));
 				i--;
 			}
