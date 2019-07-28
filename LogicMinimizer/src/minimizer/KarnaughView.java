@@ -81,18 +81,16 @@ public class KarnaughView extends JFrame
 	}
 	
 	private void fillTable(ArrayList<String> var, ArrayList<String> func, ApplicationModel model ) {
-		int varCount = model.getVariablesCount();	
-		int rowVar = varCount/2;
-		int colVar = varCount - (varCount/2);
-		int rowCount = (int) Math.pow(2, rowVar) + 1;
-		int colCount = (int) Math.pow(2, colVar) + 1;
+		final int rowVar = model.getVariablesCount()/2;
+		final int rowCount = (int) Math.pow(2, rowVar) + 1;
+		final int colCount = (int) Math.pow(2, model.getVariablesCount() - (model.getVariablesCount()/2)) + 1;
 		
 		int rowIndex = 0;
 		int colIndex = 0;
 		
 		String rowSearch;
 		String colSearch;
-		
+		String x;
 		//boolean found = false;
 		
 		for(int i = 0; i < var.size() ; i++){
@@ -107,8 +105,15 @@ public class KarnaughView extends JFrame
 				while(!colSearch.equals(kTable.getValueAt(0, colIndex)) && colIndex <= colCount) {
 					colIndex++;
 				}
+				
 				if(colIndex <= colCount && rowIndex <= rowCount) {
-					kTable.setValueAt(func.get(i), rowIndex, colIndex);
+					x = (String) kTable.getValueAt(rowIndex, colIndex);
+					if(kTable.getValueAt(rowIndex, colIndex) == null) {
+						kTable.setValueAt(func.get(i), rowIndex, colIndex);
+					}
+					else if(!x.equals(func.get(i))) {
+						kTable.setValueAt("-", rowIndex, colIndex);
+					}
 				}
 			}
 			else {
