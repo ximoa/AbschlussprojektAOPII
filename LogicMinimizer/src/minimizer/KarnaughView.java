@@ -1,34 +1,56 @@
 package minimizer;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 
 public class KarnaughView extends JFrame
 {
 	public JTable kTable;
+	public JPanel pI, pG;
+	public JLabel l;
+	public JScrollPane sp;
 	private ApplicationModel model;
 	private Variables v;
 	
 	public KarnaughView(ApplicationModel model) 
 	{
 		this.model = model;
+		if(model.getFunctionsCount() == 0) {
+			
+		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Karnaugh-Veitsch-Diagramm");
-		setLayout(new GridLayout(model.getFunctionsCount()/2, model.getFunctionsCount()-(model.getFunctionsCount()/2), 30, 30));
+		pG = new JPanel(new GridLayout(model.getFunctionsCount()/2, 0, 10, 10));
+		pG.setBorder(new EmptyBorder(20, 20, 20, 20));
 		for(int i = 0; i < model.getFunctionsCount(); i++) 
 		{
 			v = new Variables(i);
 			v.setVariablesFromModel(model);
 			makeKV();
-		}			
+			pI = new JPanel(new BorderLayout());
+			l = new JLabel("<html>Funktion Y<sub>"+i+":</sub></html>");
+			pI.add(l,BorderLayout.NORTH);
+			pI.add(kTable,BorderLayout.CENTER);
+			pG.add(pI);
+		}
+		sp = new JScrollPane(pG);
+		add(sp);
 		pack();
+		if(getSize().height > Toolkit.getDefaultToolkit().getScreenSize().height) {
+			setSize(getSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		}
 		setVisible(true);
 	}
 	
@@ -43,9 +65,9 @@ public class KarnaughView extends JFrame
 		{
 			v.setVariablesFromFile("usr.pla");
 		}
+		
 		fillOutput();
 		fillRest();
-		this.add(kTable);
 	}
 
 	private void fillHead() 
@@ -72,7 +94,7 @@ public class KarnaughView extends JFrame
 		for(int i = varCount-1; i >= 0 ; i--) 
 		{
 			x+="X<sub>" + i + "</sub>";
-			if(i == varCount/2 + 1) 
+			if(i == varCount - varCount/2) 
 			{
 				x+= "/";
 			}
@@ -217,11 +239,11 @@ public class KarnaughView extends JFrame
 		}
 		return false;
 	}
+	
 	private void fillRest()
 	{
 		int rowCount = (int) Math.pow(2, model.getVariablesCount()/2) + 1;
 		int colCount = (int) Math.pow(2, model.getVariablesCount() - (model.getVariablesCount()/2)) + 1;
-		String x = "";
 		for(int i = 1; i < rowCount; i++) 
 		{
 			for(int j = 1; j < colCount; j++) 
