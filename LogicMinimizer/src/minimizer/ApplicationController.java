@@ -32,6 +32,9 @@ public class ApplicationController implements ActionListener, ChangeListener
 		view.functionsCountSpinner.addChangeListener(this);	
 		//
 		view.karnaughButton.addActionListener(this);
+		if(model.getFunctionsCount()<= 0) {
+			view.karnaughButton.setEnabled(false);
+		}
 		view.addWindowListener(new WindowAdapter() {
 			@Override
 		    public void windowClosing(WindowEvent e) 
@@ -78,6 +81,12 @@ public class ApplicationController implements ActionListener, ChangeListener
 		else if (source == view.varsCountSpinner)
 		{
 			model.setVariablesCount(((SpinnerNumberModel)view.varsCountSpinner.getModel()).getNumber().intValue());
+		}
+		if(model.getFunctionsCount()> 0 && model.getVariablesCount() > 0) {
+			view.karnaughButton.setEnabled(true);
+		}
+		else {
+			view.karnaughButton.setEnabled(false);
 		}
 	}
 

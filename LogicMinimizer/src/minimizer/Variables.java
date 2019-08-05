@@ -13,7 +13,8 @@ public class Variables
 	private ArrayList<String> funcIn;
 	private int funcNumb;
 	
-	public Variables(int funcNumb) {
+	public Variables(int funcNumb) 
+	{
 		this.funcNumb = funcNumb;
 		varIn = new ArrayList<>();
 		funcIn = new ArrayList<>();
@@ -28,41 +29,51 @@ public class Variables
 		return funcIn;
 	}
 	
-	public void setVariablesFromModel(ApplicationModel model) {
+	public void setVariablesFromModel(ApplicationModel model) 
+	{
 		Vector<Vector<String>> vec = model.getTruthTable().getDataVector();
 		int varCount = model.getVariablesCount();
-		for(int i = 0; i < vec.size(); i++) {
+		int funcCount = model.getFunctionsCount();
+		for(int i = 0; i < vec.size(); i++) 
+		{
 			this.varIn.add(i, "");
-			for(int j = 0; j < varCount; j++) {
+			for(int j = 0; j < varCount; j++) 
+			{
 				this.varIn.set(i,this.varIn.get(i) + vec.get(i).get(j));					
 			}
-			funcIn.add(i, vec.get(i).get(varCount+funcNumb));
+			funcIn.add(i, vec.get(i).get(varCount + funcCount - funcNumb - 1));
 		}
 	}
-	public void setVariablesFromFile(String filename) {
+	public void setVariablesFromFile(String filename) 
+	{
 		String x = "";
-		try{
+		try
+		{
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			int lineCount = 0;
 			x = reader.readLine();
-			while(x != null) {
+			while(x != null) 
+			{
 				lineCount++;
 				x = reader.readLine();
 			}
 			reader.close();
 			reader = new BufferedReader(new FileReader(filename));
-			x = reader.readLine().replace(" ", "");
-			int varCount = Integer.parseInt(x.substring(2));
-			for(int i = 0; i < lineCount-1; i++) {
+			int varCount = Integer.parseInt(reader.readLine().replace(" ", "").substring(2));
+			int funcCount = Integer.parseInt(reader.readLine().replace(" ", "").substring(2));
+			for(int i = 0; i < lineCount-1; i++) 
+			{
 				x = reader.readLine().replace(" ", "");
 				if(x.startsWith(".")) {}
-				else {
+				else 
+				{
 					this.varIn.add(i, x.substring(0,varCount));
-					this.funcIn.add(i, x.substring(varCount+funcNumb, varCount+funcNumb+1));
+					this.funcIn.add(i, x.substring(varCount + funcCount - funcNumb - 1, varCount + funcCount - funcNumb));
 				}
 			}
 			reader.close();
-		} catch (IOException e){
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}

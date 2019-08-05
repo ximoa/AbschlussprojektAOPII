@@ -32,7 +32,7 @@ public class KarnaughView extends JFrame
 		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Karnaugh-Veitsch-Diagramm");
-		pG = new JPanel(new GridLayout(model.getFunctionsCount()/2, 0, 10, 10));
+		pG = new JPanel(new GridLayout(0, model.getFunctionsCount() - model.getFunctionsCount()/2, 10, 10));
 		pG.setBorder(new EmptyBorder(20, 20, 20, 20));
 		for(int i = 0; i < model.getFunctionsCount(); i++) 
 		{
@@ -104,7 +104,9 @@ public class KarnaughView extends JFrame
 
 		for(int i = 0; i < rowCount - 1 ; i++) 
 		{
-			kTable.setValueAt(grayCode[rowVar - 1][i], i+1, 0);
+			if(rowVar-1 > 0) {
+				kTable.setValueAt(grayCode[rowVar - 1][i], i+1, 0);
+			}
 		}
 
 		for(int i = 0; i < colCount- 1 ; i++) 
@@ -138,11 +140,11 @@ public class KarnaughView extends JFrame
 				colSearch = var.get(i).substring(rowVar);
 				rowIndex = 1; 
 				colIndex = 1;
-				while(!rowSearch.equals(kTable.getValueAt(rowIndex, 0)) && rowIndex <= rowCount) 
+				while(!rowSearch.equals(kTable.getValueAt(rowIndex, 0)) && rowIndex < rowCount) 
 				{
 					rowIndex++;
 				}
-				while(!colSearch.equals(kTable.getValueAt(0, colIndex)) && colIndex <= colCount) 
+				while(!colSearch.equals(kTable.getValueAt(0, colIndex)) && colIndex < colCount) 
 				{
 					colIndex++;
 				}
@@ -185,12 +187,14 @@ public class KarnaughView extends JFrame
 		{
 			reader1 = new BufferedReader(new FileReader(f1));
 			reader2 = new BufferedReader(new FileReader(f2));
-			if(reader1.readLine() == null) {
+			if(reader1.readLine() == null) 
+			{
 				reader1.close();
 				reader2.close();
 				return true;
 			}
-			else {
+			else 
+			{
 				lineCount1++;
 			}
 			while(!(reader1.readLine() == null))
