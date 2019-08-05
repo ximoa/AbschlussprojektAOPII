@@ -2,15 +2,16 @@ package minimizer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Stack;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 public class ApplicationController implements ActionListener, ChangeListener
 {
@@ -28,7 +29,33 @@ public class ApplicationController implements ActionListener, ChangeListener
 		view.addRowButton.addActionListener(this);
 		view.minimizeButton.addActionListener(this);
 		view.varsCountSpinner.addChangeListener(this);
-		view.functionsCountSpinner.addChangeListener(this);		
+		view.functionsCountSpinner.addChangeListener(this);	
+		//
+		view.karnaughButton.addActionListener(this);
+		if(model.getFunctionsCount()<= 0) {
+			view.karnaughButton.setEnabled(false);
+		}
+		view.addWindowListener(new WindowAdapter() {
+			@Override
+		    public void windowClosing(WindowEvent e) 
+		    {
+				try
+				{
+					PrintWriter pwriter = new PrintWriter(new FileWriter("usr.pla", false), false);
+			        pwriter.flush();
+			        pwriter.close();
+			        
+					pwriter = new PrintWriter(new FileWriter("min.pla", false), false);
+			        pwriter.flush();
+			        pwriter.close();
+				} catch (IOException e1)
+				{
+					e1.printStackTrace();
+				} 
+		    }
+		});
+
+		//
 	}
 
 	@Override
@@ -38,6 +65,9 @@ public class ApplicationController implements ActionListener, ChangeListener
 		if (source == view.fillButton) doFillTable();
 		else if (source == view.addRowButton) doAddRow();
 		else if (source == view.minimizeButton) doMinimize();
+		//
+		else if (source == view.karnaughButton) new KarnaughView(model);		
+		//
 	}
 
 	@Override
@@ -51,6 +81,12 @@ public class ApplicationController implements ActionListener, ChangeListener
 		else if (source == view.varsCountSpinner)
 		{
 			model.setVariablesCount(((SpinnerNumberModel)view.varsCountSpinner.getModel()).getNumber().intValue());
+		}
+		if(model.getFunctionsCount()> 0 && model.getVariablesCount() > 0) {
+			view.karnaughButton.setEnabled(true);
+		}
+		else {
+			view.karnaughButton.setEnabled(false);
 		}
 	}
 
