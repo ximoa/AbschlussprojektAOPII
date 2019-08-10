@@ -52,24 +52,27 @@ public class Variables
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			int lineCount = 0;
 			x = reader.readLine();
-			while(x != null) 
-			{
-				lineCount++;
-				x = reader.readLine();
-			}
-			reader.close();
-			reader = new BufferedReader(new FileReader(filename));
+//			while(x != null) 
+//			{
+//				lineCount++;
+//				x = reader.readLine();
+//			}
+//			reader.close();
+//			reader = new BufferedReader(new FileReader(filename));
 			int varCount = Integer.parseInt(reader.readLine().replace(" ", "").substring(2));
 			int funcCount = Integer.parseInt(reader.readLine().replace(" ", "").substring(2));
-			for(int i = 0; i < lineCount-1; i++) 
+			int i = 0;
+			while(x != null)
 			{
-				x = reader.readLine().replace(" ", "");
 				if(x.startsWith(".")) {}
 				else 
 				{
+					x.replaceAll(" ", "");
 					this.varIn.add(i, x.substring(0,varCount));
 					this.funcIn.add(i, x.substring(varCount + funcCount - funcNumb - 1, varCount + funcCount - funcNumb));
+					i++;
 				}
+				x = reader.readLine();
 			}
 			reader.close();
 		} catch (IOException e)
