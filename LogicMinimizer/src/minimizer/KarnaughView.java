@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
-public class KarnaughView extends JFrame
+public class KarnaughView extends JFrame implements Prime
 {
 	public JTable kTable;
 	public JPanel pI, pG;
@@ -67,6 +67,7 @@ public class KarnaughView extends JFrame
 		}
 		
 		fillOutput();
+		colorCells();
 		fillRest();
 	}
 
@@ -88,6 +89,10 @@ public class KarnaughView extends JFrame
 		kTable.setCellSelectionEnabled(false);
 		kTable.setRowHeight(60);
 		kTable.setEnabled(false);
+		for(int i = 0; i < colCount -1; i++)
+		{
+			kTable.getColumnModel().getColumn(i).setCellRenderer(new CellRenderer());
+		}
 
 		//create String for corner of table
 		String x = "<html>"; 
@@ -179,6 +184,112 @@ public class KarnaughView extends JFrame
 		}
 	}
 	
+	private void colorCells()
+	{
+		int primCount = 0;
+		int varCount = 0;
+		int funcCount = 0;
+		ArrayList<String> prim = new ArrayList<>();
+		ArrayList<String> func = new ArrayList<>();
+		prim.clear();
+		func.clear();
+		
+		try
+		{
+			BufferedReader reader = new BufferedReader(new FileReader("min.pla"));
+			
+			String line;
+			while((line = reader.readLine()) != null)
+			{
+				line = line.toLowerCase().replace(" ", "");
+				if (line.startsWith(".i"))
+				{
+					varCount = Integer.parseInt(line.substring(2));
+				}
+				else if (line.startsWith(".o"))
+				{
+					funcCount = Integer.parseInt(line.substring(2));
+				}
+				else if (line.startsWith(".p"))
+				{
+					primCount = Integer.parseInt(line.substring(2));
+				}
+				else if (line.startsWith(".")){}
+				else
+				{
+					prim.add(line.substring(0,varCount));
+					func.add(line.substring(varCount));
+				}
+			}
+			reader.close();
+		} 
+		catch (IOException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+		final int rowVar = varCount/2;
+		final int rowCount = (int) Math.pow(2, rowVar) + 1;
+		final int colCount = (int) Math.pow(2, varCount - (varCount/2)) + 1;
+		int rowIndex = 0;
+		int colIndex = 0;
+		
+		String rowSearch;
+		String colSearch;
+		String primRow;
+		String primCol;
+		int primeCounter = 1;
+		
+		ArrayList<String> var = v.getVarIn();
+		
+		for(int i = 0; i < prim.size() ; i++)
+		{
+			for(int j = 0; j < var.size() ; j++)
+			{
+				if(!prim.get(i).contains("-")) 
+				{
+					primRow = prim.get(i).substring(0, rowVar);
+					primCol = prim.get(i).substring(rowVar);
+					rowIndex = 1; 
+					colIndex = 1;
+					do
+					{
+						do
+						{
+							rowSearch = var.get(j).substring(0, rowVar);
+							colSearch = var.get(j).substring(rowVar);
+							colIndex++;
+						}while(colIndex < colCount && !colSearch.equals(primCol));
+						rowIndex++;
+					}while(rowIndex < rowCount && !rowSearch.equals(primRow));
+					
+				///////////////////////////////
+					if(colIndex <= colCount && rowIndex <= rowCount) 
+					{
+						if (rowSearch.equals(primRow) && colSearch.equals(primCol))
+						{
+							primes[colIndex][rowIndex] = primeCounter;
+							primeCounter += 1;
+						}
+						for(int k = 0; k < primes.length; k++)
+						{
+							for(int l = 0; l < primes[k].length; l++)
+							{
+								System.out.print(primes[k][l]);
+							}
+							System.out.println("");
+						}
+						System.out.println("---");
+					}	
+				}
+				else 
+				{
+					
+				}
+			}
+		}
+	}
+
 	private boolean compareFiles() 
 	{
 		ArrayList<String> lines1 = new ArrayList<>();
