@@ -31,6 +31,8 @@ public class Variables
 	
 	public void setVariablesFromModel(ApplicationModel model) 
 	{
+		funcIn.clear();
+		varIn.clear();
 		Vector<Vector<String>> vec = model.getTruthTable().getDataVector();
 		int varCount = model.getVariablesCount();
 		int funcCount = model.getFunctionsCount();
@@ -46,12 +48,15 @@ public class Variables
 	}
 	public void setVariablesFromFile(String filename) 
 	{
+		
+		funcIn.clear();
+		varIn.clear();
 		String x = "";
 		try
 		{
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			int lineCount = 0;
-			x = reader.readLine();
+//			x = reader.readLine();
 //			while(x != null) 
 //			{
 //				lineCount++;
@@ -62,12 +67,13 @@ public class Variables
 			int varCount = Integer.parseInt(reader.readLine().replace(" ", "").substring(2));
 			int funcCount = Integer.parseInt(reader.readLine().replace(" ", "").substring(2));
 			int i = 0;
+			x = reader.readLine();
 			while(x != null)
 			{
 				if(x.startsWith(".")) {}
 				else 
 				{
-					x.replaceAll(" ", "");
+					x = x.replace(" ","");
 					this.varIn.add(i, x.substring(0,varCount));
 					this.funcIn.add(i, x.substring(varCount + funcCount - funcNumb - 1, varCount + funcCount - funcNumb));
 					i++;

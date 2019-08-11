@@ -104,7 +104,7 @@ public class KarnaughView extends JFrame
 
 		for(int i = 0; i < rowCount - 1 ; i++) 
 		{
-			if(rowVar-1 > 0) {
+			if(rowVar-1 >= 0) {
 				kTable.setValueAt(grayCode[rowVar - 1][i], i+1, 0);
 			}
 		}
@@ -140,13 +140,19 @@ public class KarnaughView extends JFrame
 				colSearch = var.get(i).substring(rowVar);
 				rowIndex = 1; 
 				colIndex = 1;
-				while(!rowSearch.equals(kTable.getValueAt(rowIndex, 0)) && rowIndex < rowCount) 
+				while(rowIndex < rowCount)
 				{
-					rowIndex++;
+					if(!rowSearch.equals(kTable.getValueAt(rowIndex, 0))) {
+						rowIndex++;
+					}
+					else break;
 				}
-				while(!colSearch.equals(kTable.getValueAt(0, colIndex)) && colIndex < colCount) 
+				while(colIndex < colCount) 
 				{
-					colIndex++;
+					if(!colSearch.equals(kTable.getValueAt(0, colIndex))) {
+						colIndex++;
+					}
+					else break;
 				}
 				
 				if(colIndex <= colCount && rowIndex <= rowCount) 
