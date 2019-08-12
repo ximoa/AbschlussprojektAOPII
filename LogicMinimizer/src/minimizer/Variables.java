@@ -28,7 +28,7 @@ public class Variables
 	{
 		return funcIn;
 	}
-	
+
 	public void setVariablesFromModel(ApplicationModel model) 
 	{
 		funcIn.clear();
@@ -86,4 +86,5 @@ public class Variables
 			e.printStackTrace();
 		}
 	}
+	
 }
