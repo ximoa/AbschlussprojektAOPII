@@ -67,7 +67,7 @@ public class KarnaughView extends JFrame implements Prime
 		}
 		
 		fillOutput();
-		colorCells();
+		//colorCells();
 		fillRest();
 	}
 
@@ -184,6 +184,12 @@ public class KarnaughView extends JFrame implements Prime
 		}
 	}
 	
+	/*Die Funktion liest die min.pla Datei ein und speichert Variablen-, Funktions- und Primtermanzahl
+	 * Danach wird der Primterm zerteilt und im Karnaughplan gesucht
+	 * An der jeweiligen Stelle wird in einem zusätzlichen 2D-Array die Primterme gespeichert
+	*/
+	
+	/*
 	private void colorCells()
 	{
 		int primCount = 0;
@@ -263,7 +269,6 @@ public class KarnaughView extends JFrame implements Prime
 						rowIndex++;
 					}while(rowIndex < rowCount && !rowSearch.equals(primRow));
 					
-				///////////////////////////////
 					if(colIndex <= colCount && rowIndex <= rowCount) 
 					{
 						if (rowSearch.equals(primRow) && colSearch.equals(primCol))
@@ -289,6 +294,7 @@ public class KarnaughView extends JFrame implements Prime
 			}
 		}
 	}
+	*/
 
 	private boolean compareFiles() 
 	{

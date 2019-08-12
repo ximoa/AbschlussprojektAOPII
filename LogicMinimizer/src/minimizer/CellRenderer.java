@@ -22,8 +22,8 @@ public class CellRenderer extends DefaultTableCellRenderer implements Prime{
 		    	colors[4] = Color.magenta;
 		    	colors[5] = Color.cyan;
 		    	
-		    	System.out.println(row + "|" + column + ">" + obj +"<" + primes[row][column]);
-		    	
+		 		//Zeilen und Spalten des Karnaughplans werden auf ihre Primterme untersucht und grau gefärbt    	
+		    	/*
 		    	if (row > 0 && column > 0)
 		    	{
 		    		
@@ -33,7 +33,7 @@ public class CellRenderer extends DefaultTableCellRenderer implements Prime{
 			    		setBackground(Color.gray);
 		    	}
 		    	}
-		    	
+		    	*/
 		    return c;
 		}
 }
